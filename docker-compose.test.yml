@@ -14,7 +14,7 @@ services:
       - dockertest.env
     # TODO replace template-serverless-service
     volumes:
-      - $PWD:/go/src/github.com/pennsieve/template-serverless-service
+      - $PWD:/go/src/github.com/pennsieve/drs-service
     networks:
       - api-tests
 
