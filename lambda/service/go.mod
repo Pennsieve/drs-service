@@ -1,4 +1,4 @@
-module github.com/pennsieve/template-serverless-service/service
+module github.com/pennsieve/drs-service/service
 
 //TODO update module name
 
