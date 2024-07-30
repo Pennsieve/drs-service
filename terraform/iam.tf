@@ -33,7 +33,7 @@ data "aws_iam_policy_document" "service_iam_policy_document" {
 
   statement {
     # TODO update sid
-    sid     = "DrsServiceLambdaLogsPermissions"
+    sid     = "drsServiceLambdaLogsPermissions"
     effect  = "Allow"
     actions = [
       "logs:CreateLogGroup",
@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "service_iam_policy_document" {
 
   statement {
     # TODO update sid
-    sid     = "DrsServiceLambdaEC2Permissions"
+    sid     = "drsServiceLambdaEC2Permissions"
     effect  = "Allow"
     actions = [
       "ec2:CreateNetworkInterface",
@@ -61,7 +61,7 @@ data "aws_iam_policy_document" "service_iam_policy_document" {
 
   statement {
     # TODO update sid
-    sid    = "DrsServiceSecretsManagerPermissions"
+    sid    = "drsServiceSecretsManagerPermissions"
     effect = "Allow"
 
     actions = [
@@ -76,7 +76,7 @@ data "aws_iam_policy_document" "service_iam_policy_document" {
 
   statement {
     # TODO update sid
-    sid    = "DrsServiceSSMPermissions"
+    sid    = "drsServiceSSMPermissions"
     effect = "Allow"
 
     actions = [
