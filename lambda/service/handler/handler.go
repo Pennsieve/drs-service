@@ -9,6 +9,7 @@ import (
 	"github.com/pennsieve/drs-service/service/logging"
 )
 
+
 type ServiceInfo struct {
 	ID             string   `json:"id"`
 	Name           string   `json:"name"`
@@ -33,18 +34,18 @@ type OrgInfo struct {
 
 
 var drsServiceInfo = ServiceInfo{
-	ID:          "com.example.drs", 
+	ID:          "com.example.drs",
 	Name:        "Example DRS Service",
 	Type:        TypeInfo{Group: "org.ga4gh", Artifact: "drs"},
 	Description: "This service provides DRS functionalities.",
 	Organization: OrgInfo{
-		Name: "Pennsieve Platform",// I currently assigned the Name as Pennsieve Platform, let me know if I need to change it.
-		URL:  "Pennsieve.io/ga4gh/drs/v1/service-info",// I currently assigned the Name as Pennsieve P, let me know if I need to change it.
+		Name: "Example Organization",
+		URL:  "https://example.org",
 	},
-	ContactURL:     "N/A", // let me know if there is any update
-	DocumentationURL: "N/A",// let me know if there is any update
-	CreatedAt:      "2024-09-30T00:00:00Z",// let me know if there is any update
-	UpdatedAt:      "2024-09-30T00:00:00Z",// let me know if there is any update
+	ContactURL:     "mailto:support@example.org",
+	DocumentationURL: "https://example.org/docs",
+	CreatedAt:      "2024-09-30T00:00:00Z",
+	UpdatedAt:      "2024-09-30T00:00:00Z",
 }
 
 var logger = logging.Default
