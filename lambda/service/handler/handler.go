@@ -4,92 +4,45 @@ import (
 	"context"
 	"encoding/json"
 	"log/slog"
+	"net/http"
+	"os"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/pennsieve/drs-service/service/logging"
+	"github.com/aws/aws-lambda-go/lambdacontext"
+	"github.com/pennsieve/drs-service/service/models"
 )
 
 
-type ServiceInfo struct {
-	ID             string   `json:"id"`
-	Name           string   `json:"name"`
-	Type           TypeInfo `json:"type"`
-	Description    string   `json:"description"`
-	Organization   OrgInfo  `json:"organization"`
-	ContactURL     string   `json:"contactUrl"`
-	DocumentationURL string `json:"documentationUrl"`
-	CreatedAt      string   `json:"createdAt"`
-	UpdatedAt      string   `json:"updatedAt"`
-}
-
-type TypeInfo struct {
-	Group    string `json:"group"`
-	Artifact string `json:"artifact"`
-}
-
-type OrgInfo struct {
-	Name string `json:"name"`
-	URL  string `json:"url"`
-}
+var logger = slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
 
-var drsServiceInfo = ServiceInfo{
-	ID:          "com.example.drs",
-	Name:        "Example DRS Service",
-	Type:        TypeInfo{Group: "org.ga4gh", Artifact: "drs"},
-	Description: "This service provides DRS functionalities.",
-	Organization: OrgInfo{
-		Name: "Example Organization",
-		URL:  "https://example.org",
-	},
-	ContactURL:     "mailto:support@example.org",
-	DocumentationURL: "https://example.org/docs",
-	CreatedAt:      "2024-09-30T00:00:00Z",
-	UpdatedAt:      "2024-09-30T00:00:00Z",
-}
-
-var logger = logging.Default
-
-func init() {
-	logger.Info("init()")
-}
-
-
-func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPRequest) (*events.APIGatewayV2HTTPResponse, error) {
-	logger = logger.With(slog.String("requestID", request.RequestContext.RequestID))
-
-
-	if request.RequestContext.HTTP.Path == "/ga4gh/drs/v1/service-info" {
-		return handleServiceInfoRequest()
+func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	if lc, ok := lambdacontext.FromContext(ctx); ok {
+		logger = logger.With(
+			slog.String("requestID", lc.AwsRequestID),
+			slog.String("handler", "DrsServiceHandler"),
+		)
 	}
 
-
-	apiResponse := events.APIGatewayV2HTTPResponse{
-		Body:       `{"error":"Not Found"}`,
-		StatusCode: 404,
-	}
-	return &apiResponse, nil
+	router := NewLambdaRouter()
+	router.GET("/ga4gh/drs/v1/service-info", handleServiceInfoRequest) 
+	return router.Start(ctx, request)
 }
 
 
-func handleServiceInfoRequest() (*events.APIGatewayV2HTTPResponse, error) {
+func handleServiceInfoRequest(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	logger.Info("handleServiceInfoRequest()")
-
-
-	body, err := json.Marshal(drsServiceInfo)
+	serviceInfo := models.NewServiceInfo()
+	body, err := json.Marshal(serviceInfo)
 	if err != nil {
-
-		apiResponse := events.APIGatewayV2HTTPResponse{
+		return events.APIGatewayV2HTTPResponse{
+			StatusCode: http.StatusInternalServerError,
 			Body:       `{"msg": "Internal Server Error", "status_code": 500}`,
-			StatusCode: 500,
-		}
-		return &apiResponse, err 
+		}, err
 	}
-
-
-	apiResponse := events.APIGatewayV2HTTPResponse{
+	
+	return events.APIGatewayV2HTTPResponse{
 		Body:       string(body),
-		StatusCode: 200,
-	}
-	return &apiResponse, nil
+		StatusCode: http.StatusOK,
+	}, nil
 }
