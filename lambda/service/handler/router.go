@@ -50,36 +50,35 @@ func (r *LambdaRouter) PUT(routeKey string, handler RouterHandlerFunc) {
 }
 
 func (r *LambdaRouter) Start(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
-    routeKey := request.RequestContext.HTTP.Path
-    logger.Info("Routing request", "method", request.RequestContext.HTTP.Method, "path", routeKey)
+	routeKey := request.RequestContext.HTTP.Path
+	logger.Info("Routing request", "method", request.RequestContext.HTTP.Method, "path", routeKey)
 
-    switch request.RequestContext.HTTP.Method {
-    case http.MethodPost:
-        f, ok := r.postRoutes[routeKey]
-        if ok {
-            return f(ctx, request)
-        }
-    case http.MethodGet:
-        f, ok := r.getRoutes[routeKey]
-        if ok {
-            return f(ctx, request)
-        }
-    case http.MethodDelete:
-        f, ok := r.deleteRoutes[routeKey]
-        if ok {
-            return f(ctx, request)
-        }
-    case http.MethodPut:
-        f, ok := r.putRoutes[routeKey]
-        if ok {
-            return f(ctx, request)
-        }
-    }
+	switch request.RequestContext.HTTP.Method {
+	case http.MethodPost:
+		f, ok := r.postRoutes[routeKey]
+		if ok {
+			return f(ctx, request)
+		}
+	case http.MethodGet:
+		f, ok := r.getRoutes[routeKey]
+		if ok {
+			return f(ctx, request)
+		}
+	case http.MethodDelete:
+		f, ok := r.deleteRoutes[routeKey]
+		if ok {
+			return f(ctx, request)
+		}
+	case http.MethodPut:
+		f, ok := r.putRoutes[routeKey]
+		if ok {
+			return f(ctx, request)
+		}
+	}
 
-    logger.Info("Route not found", "path", routeKey)
-    return events.APIGatewayV2HTTPResponse{
-        StatusCode: http.StatusNotFound,
-        Body:       `{"error":"Route not found"}`,
-    }, nil
+	logger.Info("Route not found", "path", routeKey)
+	return events.APIGatewayV2HTTPResponse{
+		StatusCode: http.StatusNotFound,
+		Body:       `{"error":"Route not found"}`,
+	}, nil
 }
-

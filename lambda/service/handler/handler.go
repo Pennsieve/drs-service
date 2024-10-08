@@ -12,9 +12,7 @@ import (
 	"github.com/pennsieve/drs-service/service/models"
 )
 
-
 var logger = slog.New(slog.NewJSONHandler(os.Stdout, nil))
-
 
 func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	if lc, ok := lambdacontext.FromContext(ctx); ok {
@@ -25,10 +23,9 @@ func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPReque
 	}
 
 	router := NewLambdaRouter()
-	router.GET("/ga4gh/drs/v1/service-info", handleServiceInfoRequest) 
+	router.GET("/ga4gh/drs/v1/service-info", handleServiceInfoRequest)
 	return router.Start(ctx, request)
 }
-
 
 func handleServiceInfoRequest(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	logger.Info("handleServiceInfoRequest()")
@@ -40,7 +37,7 @@ func handleServiceInfoRequest(ctx context.Context, request events.APIGatewayV2HT
 			Body:       `{"msg": "Internal Server Error", "status_code": 500}`,
 		}, err
 	}
-	
+
 	return events.APIGatewayV2HTTPResponse{
 		Body:       string(body),
 		StatusCode: http.StatusOK,
