@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/pennsieve/drs-service/service/config"
 	"github.com/pennsieve/drs-service/service/models"
 	"github.com/stretchr/testify/assert"
 )
@@ -38,8 +39,15 @@ func TestDrsServiceHandler_ServiceInfo(t *testing.T) {
 		var serviceInfo models.ServiceInfo
 		err = json.Unmarshal([]byte(resp.Body), &serviceInfo)
 		assert.NoError(t, err)
-
-		expectedServiceInfo := models.NewServiceInfo()
+		cfg := config.NewConfig()
+		expectedServiceInfo := models.NewServiceInfo(
+			cfg.DRSServiceID,
+			cfg.DRSOrgURL,
+			cfg.DocumentationURL,
+			cfg.CreatedAt,
+			cfg.UpdatedAt,
+			cfg.Environment,
+		)
 		assert.Equal(t, expectedServiceInfo, serviceInfo)
 	}
 }

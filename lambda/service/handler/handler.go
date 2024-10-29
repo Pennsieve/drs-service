@@ -9,6 +9,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambdacontext"
+	"github.com/pennsieve/drs-service/service/config"
 	"github.com/pennsieve/drs-service/service/models"
 )
 
@@ -29,7 +30,17 @@ func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPReque
 
 func handleServiceInfoRequest(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	logger.Info("handleServiceInfoRequest()")
-	serviceInfo := models.NewServiceInfo()
+
+	cfg := config.NewConfig()
+
+	serviceInfo := models.NewServiceInfo(
+		cfg.DRSServiceID,
+		cfg.DRSOrgURL,
+		cfg.DocumentationURL,
+		cfg.CreatedAt,
+		cfg.UpdatedAt,
+		cfg.Environment,
+	)
 	body, err := json.Marshal(serviceInfo)
 	if err != nil {
 		return events.APIGatewayV2HTTPResponse{

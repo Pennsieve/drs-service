@@ -1,10 +1,5 @@
 package models
 
-import (
-	"os"
-)
-
-
 type ServiceInfo struct {
 	ID               string   `json:"id"`
 	Name             string   `json:"name"`
@@ -15,35 +10,21 @@ type ServiceInfo struct {
 	DocumentationURL string   `json:"documentationUrl"`
 	CreatedAt        string   `json:"createdAt"`
 	UpdatedAt        string   `json:"updatedAt"`
-	Environment      string   `json:"environment"`   
-	Version          string   `json:"version"`       
+	Environment      string   `json:"environment"`
+	Version          string   `json:"version"`
 }
-
 
 type TypeInfo struct {
 	Group    string `json:"group"`
 	Artifact string `json:"artifact"`
 }
 
-
 type OrgInfo struct {
 	Name string `json:"name"`
 	URL  string `json:"url"`
 }
 
-
-func NewServiceInfo() ServiceInfo {
-
-	id := os.Getenv("DRS_SERVICE_ID")
-	if id == "" {
-		id = "io.pennsieve.drs" // default
-	}
-
-	url := os.Getenv("DRS_ORG_URL")
-	if url == "" {
-		url = "https://pennsieve.io" // default
-	}
-
+func NewServiceInfo(id, url, documentationURL, createdAt, updatedAt, environment string) ServiceInfo {
 	return ServiceInfo{
 		ID:          id,
 		Name:        "Pennsieve DRS Service",
@@ -54,10 +35,10 @@ func NewServiceInfo() ServiceInfo {
 			URL:  url,
 		},
 		ContactURL:       "support@pennsieve.io",
-		DocumentationURL: "https://docs.pennsieve.io",
-		CreatedAt:        "2024-09-30T00:00:00Z",
-		UpdatedAt:        "2024-09-30T00:00:00Z",
-		Environment:      "test",
+		DocumentationURL: documentationURL,
+		CreatedAt:        createdAt,
+		UpdatedAt:        updatedAt,
+		Environment:      environment,
 		Version:          "1.0.0",
 	}
 }
