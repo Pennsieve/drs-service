@@ -15,12 +15,12 @@ type Config struct {
 
 func NewConfig() Config {
     return Config{
-        DRSServiceID:      getEnvOrDefault("DRS_SERVICE_ID", "io.pennsieve.drs"),
-        DRSOrgURL:         getEnvOrDefault("DRS_ORG_URL", "https://pennsieve.io"),
+        DRSServiceID:      getEnvOrDefault("DRS_SERVICE_ID", "net.pennsieve.drs"),
+        DRSOrgURL:         getEnvOrDefault("DRS_ORG_URL", "https://pennsieve.dev"),
         DocumentationURL:  getEnvOrDefault("DOCUMENTATION_URL", "https://docs.pennsieve.io"),
         CreatedAt:         getEnvOrDefault("CREATED_AT", "2024-09-30T00:00:00Z"),
         UpdatedAt:         getEnvOrDefault("UPDATED_AT", "2024-09-30T00:00:00Z"),
-        Environment:       getEnvOrDefault("ENVIRONMENT", "test"),
+        Environment:       getEnvOrDefault("ENVIRONMENT", "dev"),
     }
 }
 

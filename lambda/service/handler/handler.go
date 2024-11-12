@@ -14,6 +14,7 @@ import (
 )
 
 var logger = slog.New(slog.NewJSONHandler(os.Stdout, nil))
+var cfg = config.NewConfig()
 
 func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	if lc, ok := lambdacontext.FromContext(ctx); ok {
@@ -31,7 +32,6 @@ func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPReque
 func handleServiceInfoRequest(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	logger.Info("handleServiceInfoRequest()")
 
-	cfg := config.NewConfig()
 
 	serviceInfo := models.NewServiceInfo(
 		cfg.DRSServiceID,
