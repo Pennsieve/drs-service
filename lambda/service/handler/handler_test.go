@@ -14,8 +14,8 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	os.Setenv("DRS_SERVICE_ID", "io.pennsieve.drs")
-	os.Setenv("DRS_ORG_URL", "https://pennsieve.io")
+	os.Setenv("DRS_SERVICE_ID", "net.pennsieve.drs")
+	os.Setenv("DRS_ORG_URL", "https://pennsieve.dev")
 
 	code := m.Run()
 	os.Exit(code)

@@ -32,7 +32,6 @@ func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPReque
 func handleServiceInfoRequest(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	logger.Info("handleServiceInfoRequest()")
 
-
 	serviceInfo := models.NewServiceInfo(
 		cfg.DRSServiceID,
 		cfg.DRSOrgURL,
