@@ -5,8 +5,8 @@ module github.com/pennsieve/drs-service/service
 go 1.21
 
 require (
-	github.com/aws/aws-lambda-go v1.34.1
-	github.com/stretchr/testify v1.7.2
+	github.com/aws/aws-lambda-go v1.47.0
+	github.com/stretchr/testify v1.9.0
 )
 
 require (

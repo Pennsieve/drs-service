@@ -2,30 +2,54 @@ package handler
 
 import (
 	"context"
+	"encoding/json"
 	"log/slog"
+	"net/http"
+	"os"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/pennsieve/drs-service/service/logging"
+	"github.com/aws/aws-lambda-go/lambdacontext"
+	"github.com/pennsieve/drs-service/service/config"
+	"github.com/pennsieve/drs-service/service/models"
 )
 
-var logger = logging.Default
+var logger = slog.New(slog.NewJSONHandler(os.Stdout, nil))
+var cfg = config.NewConfig()
 
-func init() {
-	logger.Info("init()")
+func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	if lc, ok := lambdacontext.FromContext(ctx); ok {
+		logger = logger.With(
+			slog.String("requestID", lc.AwsRequestID),
+			slog.String("handler", "DrsServiceHandler"),
+		)
+	}
+
+	router := NewLambdaRouter()
+	router.GET("/ga4gh/drs/v1/service-info", handleServiceInfoRequest)
+	return router.Start(ctx, request)
 }
 
-// TODO update Handler function name
-func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPRequest) (*events.APIGatewayV2HTTPResponse, error) {
-	logger = logger.With(slog.String("requestID", request.RequestContext.RequestID))
+func handleServiceInfoRequest(ctx context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	logger.Info("handleServiceInfoRequest()")
 
-	apiResponse, err := handleRequest()
+	serviceInfo := models.NewServiceInfo(
+		cfg.DRSServiceID,
+		cfg.DRSOrgURL,
+		cfg.DocumentationURL,
+		cfg.CreatedAt,
+		cfg.UpdatedAt,
+		cfg.Environment,
+	)
+	body, err := json.Marshal(serviceInfo)
+	if err != nil {
+		return events.APIGatewayV2HTTPResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       `{"msg": "Internal Server Error", "status_code": 500}`,
+		}, err
+	}
 
-	return apiResponse, err
-}
-
-func handleRequest() (*events.APIGatewayV2HTTPResponse, error) {
-	logger.Info("handleRequest()")
-	apiResponse := events.APIGatewayV2HTTPResponse{Body: "{'response':'hello'}", StatusCode: 200}
-
-	return &apiResponse, nil
+	return events.APIGatewayV2HTTPResponse{
+		Body:       string(body),
+		StatusCode: http.StatusOK,
+	}, nil
 }

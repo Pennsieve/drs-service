@@ -21,6 +21,8 @@ resource "aws_lambda_function" "service_lambda" {
       ENV              = var.environment_name
       PENNSIEVE_DOMAIN = data.terraform_remote_state.account.outputs.domain_name,
       REGION           = var.aws_region
+      DRS_SERVICE_ID   = var.DRS_SERVICE_ID  
+      DRS_ORG_URL      = var.DRS_ORG_URL  
     }
   }
 }
