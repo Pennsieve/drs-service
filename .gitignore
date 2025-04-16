@@ -14,8 +14,19 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-# IntelliJ
-.idea
+# Go workspace file
+go.work
 
-# Lambda Binaries Zip files
-lambda/bin
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Build output
+/bin/
+/dist/

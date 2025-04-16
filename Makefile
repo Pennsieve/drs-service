@@ -5,6 +5,7 @@ WORKING_DIR   ?= "$(shell pwd)"
 # TODO replace template-serverless-service
 SERVICE_NAME  ?= "drs-service"
 PACKAGE_NAME  ?= "${SERVICE_NAME}-${IMAGE_TAG}.zip"
+API_PACKAGE_NAME ?= "${SERVICE_NAME}-${IMAGE_TAG}.zip"
 
 .DEFAULT: help
 
@@ -20,7 +21,7 @@ help:
 # Run dockerized tests (can be used locally)
 test:
 	docker-compose -f docker-compose.test.yml down --remove-orphans
-	docker-compose -f docker-compose.test.yml up --exit-code-from local_tests local_tests
+	docker-compose -f docker-compose.test.yml up --build --exit-code-from local_tests local_tests
 	make clean
 
 # Run dockerized tests (used on Jenkins)
@@ -45,10 +46,9 @@ package:
 	@echo "*   Building lambda   *"
 	@echo "***********************"
 	@echo ""
-	cd lambda/service; \
-  		env GOOS=linux GOARCH=arm64 go build -tags lambda.norpc -o $(WORKING_DIR)/lambda/bin/service/bootstrap; \
-		cd $(WORKING_DIR)/lambda/bin/service/ ; \
-			zip -r $(WORKING_DIR)/lambda/bin/service/$(PACKAGE_NAME) .
+		env GOOS=linux GOARCH=arm64 go build -tags lambda.norpc -o $(WORKING_DIR)/bin/api/bootstrap $(WORKING_DIR)/cmd/api; \
+		cd $(WORKING_DIR)/bin/api/; \
+		zip -r $(WORKING_DIR)/bin/api/$(API_PACKAGE_NAME) .
 
 # Copy Service lambda to S3 location
 publish:
@@ -58,8 +58,8 @@ publish:
 	@echo "*   Publishing lambda   *"
 	@echo "*************************"
 	@echo ""
-	aws s3 cp $(WORKING_DIR)/lambda/bin/service/$(PACKAGE_NAME) s3://$(LAMBDA_BUCKET)/$(SERVICE_NAME)/
-	rm -rf $(WORKING_DIR)/lambda/bin/service/$(PACKAGE_NAME) $(WORKING_DIR)/lambda/bin/service/bootstrap
+	aws s3 cp $(WORKING_DIR)/bin/api/$(API_PACKAGE_NAME) s3://$(LAMBDA_BUCKET)/$(SERVICE_NAME)/
+	rm -rf $(WORKING_DIR)/bin/api/$(API_PACKAGE_NAME) $(WORKING_DIR)/bin/api/bootstrap
 
 # Run go mod tidy on modules
 tidy:

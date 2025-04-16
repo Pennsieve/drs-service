@@ -1,13 +1,14 @@
-FROM golang:1.21-alpine
+FROM golang:1.23-alpine
 
-  # Install git
-RUN set -ex; \
-apk update; \
-apk add --no-cache git
+WORKDIR /test
 
-  # Set working directory
-  # TODO replace template-serverless-service
-WORKDIR /go/src/github.com/pennsieve/drs-service/lambda/service
+ENV CGO_ENABLED=0
 
-  # Run tests
-CMD CGO_ENABLED=0 go test -v ./...
+COPY go.mod .
+RUN ["go", "mod", "download"]
+
+COPY cmd cmd
+COPY internal internal
+RUN ["go", "mod", "tidy"]
+
+CMD ["go", "test", "-v", "-p", "1", "./..."]
