@@ -27,7 +27,7 @@ test:
 # Run dockerized tests (used on Jenkins)
 test-ci:
 	docker-compose -f docker-compose.test.yml down --remove-orphans
-	@IMAGE_TAG=$(IMAGE_TAG) docker-compose -f docker-compose.test.yml up --exit-code-from=ci-tests ci-tests
+	@IMAGE_TAG=$(IMAGE_TAG) docker-compose -f docker-compose.test.yml up --build --exit-code-from=ci-tests ci-tests
 
 # Remove folders created by NEO4J docker container
 clean: docker-clean
