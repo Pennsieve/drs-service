@@ -17,7 +17,6 @@ import (
 var logger = logging.Default
 var serviceConfig *config.Config
 var drsService service.DrsService
-var drsHandler *DrsHandler
 
 func init() {
 	// Load configuration
@@ -33,8 +32,6 @@ func init() {
 	// Initialize service layer
 	drsService = service.NewDrsService(repo, serviceConfig.BaseURL, serviceConfig)
 
-	// Initialize handler
-	drsHandler = NewDrsHandler(drsService)
 }
 
 // DrsServiceHandler is the main entry point for AWS Lambda
@@ -65,7 +62,7 @@ func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPReque
 	router.OPTIONS("/objects", OptionsBulkObjectHandler)
 
 	router.GET("/objects/{object_id}/access/{access_id}", GetAccessURLHandler)
-	router.POST("objects/{object_id}/access/{access_id}", PostAccessURLHandler)
+	router.POST("/objects/{object_id}/access/{access_id}", PostAccessURLHandler)
 
 	router.POST("/objects/access", PostBulkAccessURLHandler)
 

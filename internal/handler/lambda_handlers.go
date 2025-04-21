@@ -36,7 +36,7 @@ func GetObjectHandler(ctx context.Context, request events.APIGatewayV2HTTPReques
 	objectID, ok := request.PathParameters["object_id"]
 	if !ok || objectID == "" {
 		handlerLogger.Error("Missing object_id parameter")
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Missing object_id parameter"))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("missing object_id parameter"))
 	}
 
 	handlerLogger.Info("Getting object", "object_id", objectID)
@@ -63,7 +63,7 @@ func PostObjectHandler(ctx context.Context, request events.APIGatewayV2HTTPReque
 	objectID, ok := request.PathParameters["object_id"]
 	if !ok || objectID == "" {
 		handlerLogger.Error("Missing object_id parameter")
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Missing object_id parameter"))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("missing object_id parameter"))
 	}
 
 	// Parse request body
@@ -74,7 +74,7 @@ func PostObjectHandler(ctx context.Context, request events.APIGatewayV2HTTPReque
 
 	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
 		handlerLogger.Error("Invalid request body", "error", err)
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Invalid request body: %v", err))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("invalid request body: %v", err))
 	}
 
 	handlerLogger.Info("Getting object with passport", "object_id", objectID)
@@ -95,7 +95,7 @@ func OptionsObjectHandler(ctx context.Context, request events.APIGatewayV2HTTPRe
 	objectID, ok := request.PathParameters["object_id"]
 	if !ok || objectID == "" {
 		handlerLogger.Error("Missing object_id parameter")
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Missing object_id parameter"))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("missing object_id parameter"))
 	}
 
 	// Get passport information from request header (if any)
@@ -126,7 +126,7 @@ func GetBulkObjectsHandler(ctx context.Context, request events.APIGatewayV2HTTPR
 
 	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
 		handlerLogger.Error("Invalid request body", "error", err)
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Invalid request body: %v", err))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("invalid request body: %v", err))
 	}
 
 	handlerLogger.Info("Getting bulk objects", "count", len(req.BulkObjectIDs))
@@ -162,7 +162,7 @@ func OptionsBulkObjectHandler(ctx context.Context, request events.APIGatewayV2HT
 
 	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
 		handlerLogger.Error("Invalid request body", "error", err)
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Invalid request body: %v", err))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("invalid request body: %v", err))
 	}
 
 	// Get passport information from request header (if any)
@@ -200,13 +200,13 @@ func GetAccessURLHandler(ctx context.Context, request events.APIGatewayV2HTTPReq
 	objectID, ok := request.PathParameters["object_id"]
 	if !ok || objectID == "" {
 		handlerLogger.Error("Missing object_id parameter")
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Missing object_id parameter"))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("missing object_id parameter"))
 	}
 
 	accessID, ok := request.PathParameters["access_id"]
 	if !ok || accessID == "" {
 		handlerLogger.Error("Missing access_id parameter")
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Missing access_id parameter"))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("missing access_id parameter"))
 	}
 
 	handlerLogger.Info("Getting access URL", "object_id", objectID, "access_id", accessID)
@@ -236,13 +236,13 @@ func PostAccessURLHandler(ctx context.Context, request events.APIGatewayV2HTTPRe
 	objectID, ok := request.PathParameters["object_id"]
 	if !ok || objectID == "" {
 		handlerLogger.Error("Missing object_id parameter")
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Missing object_id parameter"))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("missing object_id parameter"))
 	}
 
 	accessID, ok := request.PathParameters["access_id"]
 	if !ok || accessID == "" {
 		handlerLogger.Error("Missing access_id parameter")
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Missing access_id parameter"))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("missing access_id parameter"))
 	}
 
 	// Parse request body
@@ -252,7 +252,7 @@ func PostAccessURLHandler(ctx context.Context, request events.APIGatewayV2HTTPRe
 
 	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
 		handlerLogger.Error("Invalid request body", "error", err)
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Invalid request body: %v", err))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("invalid request body: %v", err))
 	}
 
 	handlerLogger.Info("Getting access URL with passport", "object_id", objectID, "access_id", accessID)
@@ -290,7 +290,7 @@ func PostBulkAccessURLHandler(ctx context.Context, request events.APIGatewayV2HT
 
 	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
 		handlerLogger.Error("Invalid request body", "error", err)
-		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("Invalid request body: %v", err))
+		return createErrorResponse(http.StatusBadRequest, fmt.Errorf("invalid request body: %v", err))
 	}
 
 	handlerLogger.Info("Getting bulk access URLs", "count", len(req.Requests))
@@ -303,7 +303,7 @@ func PostBulkAccessURLHandler(ctx context.Context, request events.APIGatewayV2HT
 
 	// Call service method to get bulk access URLs
 	bulkURLs, errMap := drsService.GetBulkAccessURLs(ctx, objectAccessIDs)
-	
+
 	// Check for errors
 	if len(errMap) > 0 {
 		// If all requests failed, return an error
@@ -328,7 +328,7 @@ func PostBulkAccessURLHandler(ctx context.Context, request events.APIGatewayV2HT
 	}{
 		AccessURLs: bulkURLs,
 	}
-	
+
 	// If there are errors, add them to the response
 	if len(errMap) > 0 {
 		errorMessages := make(map[string]string)
