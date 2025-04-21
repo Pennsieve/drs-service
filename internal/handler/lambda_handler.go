@@ -56,18 +56,18 @@ func DrsServiceHandler(ctx context.Context, request events.APIGatewayV2HTTPReque
 	router := router.NewLambdaRouter(logger)
 
 	// GA4GH DRS API endpoints
-	router.GET("/ga4gh/drs/v1/service-info", GetServiceInfoHandler)
-	router.GET("/ga4gh/drs/v1/objects/{object_id}", GetObjectHandler)
-	router.POST("/ga4gh/drs/v1/objects/{object_id}", PostObjectHandler)
-	router.OPTIONS("/ga4gh/drs/v1/objects/{object_id}", OptionsObjectHandler)
+	router.GET("/service-info", GetServiceInfoHandler)
+	router.GET("/objects/{object_id}", GetObjectHandler)
+	router.POST("/objects/{object_id}", PostObjectHandler)
+	router.OPTIONS("/objects/{object_id}", OptionsObjectHandler)
 
-	router.POST("/ga4gh/drs/v1/objects", GetBulkObjectsHandler)
-	router.OPTIONS("/ga4gh/drs/v1/objects", OptionsBulkObjectHandler)
+	router.POST("/objects", GetBulkObjectsHandler)
+	router.OPTIONS("/objects", OptionsBulkObjectHandler)
 
-	router.GET("/ga4gh/drs/v1/objects/{object_id}/access/{access_id}", GetAccessURLHandler)
-	router.POST("/ga4gh/drs/v1/objects/{object_id}/access/{access_id}", PostAccessURLHandler)
+	router.GET("/objects/{object_id}/access/{access_id}", GetAccessURLHandler)
+	router.POST("objects/{object_id}/access/{access_id}", PostAccessURLHandler)
 
-	router.POST("/ga4gh/drs/v1/objects/access", PostBulkAccessURLHandler)
+	router.POST("/objects/access", PostBulkAccessURLHandler)
 
 	return router.Start(ctx, request)
 }
