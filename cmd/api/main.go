@@ -1,4 +1,5 @@
 // cmd/server/main.go
+/*
 package main
 
 import (
@@ -36,4 +37,16 @@ func main() {
 	serverAddr := fmt.Sprintf(":%d", cfg.ServerPort)
 	log.Printf("Starting server on %s", serverAddr)
 	log.Fatal(http.ListenAndServe(serverAddr, r))
+}
+*/
+// cmd/lambda/main.go
+package main
+
+import (
+	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/pennsieve/drs-service/internal/handler"
+)
+
+func main() {
+	lambda.Start(handler.DrsServiceHandler)
 }

@@ -3,6 +3,7 @@ module github.com/pennsieve/drs-service
 go 1.21.11
 
 require (
+	github.com/aws/aws-lambda-go v1.48.0
 	github.com/gorilla/mux v1.8.1
 	github.com/stretchr/testify v1.10.0
 )

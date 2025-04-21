@@ -11,15 +11,15 @@ type Config struct {
 	StorageDir string
 
 	// 服务信息
-	DRSServiceID      string
+	DRSServiceID       string
 	ServiceName        string
 	ServiceDescription string
 	OrganizationName   string
-	DRSOrgURL         string
-	DocumentationURL  string
-	CreatedAt         string
-	UpdatedAt         string
-	Environment       string
+	DRSOrgURL          string
+	DocumentationURL   string
+	CreatedAt          string
+	UpdatedAt          string
+	Environment        string
 
 	// 认证配置
 	EnableBasicAuth    bool
@@ -38,15 +38,15 @@ func NewDefaultConfig() *Config {
 		BaseURL:    "localhost:8080",
 		StorageDir: "./storage",
 
-		DRSServiceID:      "net.pennsieve.drs",
+		DRSServiceID:       "net.pennsieve.drs",
 		ServiceName:        "DRS Demo Service",
 		ServiceDescription: "A demonstration implementation of GA4GH DRS",
 		OrganizationName:   "DRS Demo Organization",
-		DRSOrgURL:         "https://pennsieve.dev",
-		DocumentationURL:  "https://docs.pennsieve.io",
-		CreatedAt:         "2024-09-30T00:00:00Z",
-		UpdatedAt:         "2024-09-30T00:00:00Z",
-		Environment:       "dev",
+		DRSOrgURL:          "https://pennsieve.dev",
+		DocumentationURL:   "https://docs.pennsieve.io",
+		CreatedAt:          "2024-09-30T00:00:00Z",
+		UpdatedAt:          "2024-09-30T00:00:00Z",
+		Environment:        "dev",
 
 		EnableBasicAuth:    true,
 		EnableBearerAuth:   true,
