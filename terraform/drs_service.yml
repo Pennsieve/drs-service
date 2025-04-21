@@ -240,7 +240,6 @@ components:
             The overall JWT is signed as are the individual Passport Visas.
           items:
             type: string
-            example: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIn0..."
 
     getDrsObjectWithPassportResponse:
       type: object
@@ -258,8 +257,6 @@ components:
             The overall JWT is signed as are the individual Passport Visas.
           items:
             type: string
-          example:
-            - "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
         bulk_object_ids:
           type: array
           description: "An array of ObjectIDs."
@@ -356,7 +353,6 @@ components:
             The overall JWT is signed as are the individual Passport Visas.
           items:
             type: string
-            example: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIn0..."
 
     bulkFetchUrlsRequest:
       type: object
@@ -368,7 +364,6 @@ components:
             The overall JWT is signed as are the individual Passport Visas.
           items:
             type: string
-            example: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIn0..."
         bulk_object_access_ids:
           type: array
           description: |
