@@ -10,8 +10,8 @@ resource "aws_apigatewayv2_api" "drs-service-api" {
     max_age = 300
   }
   body          = templatefile("${path.module}/drs_service.yml", {
-    authorize_lambda_invoke_uri = data.terraform_remote_state.api_gateway.outputs.authorizer_lambda_invoke_uri
-    gateway_authorizer_role = data.terraform_remote_state.api_gateway.outputs.authorizer_invocation_role
+    authorize_lambda_invoke_uri = data.terraform_remote_state.api_gateway.outputs.authorizer_lambda_invoke_uri,
+    gateway_authorizer_role = data.terraform_remote_state.api_gateway.outputs.authorizer_invocation_role,
     drs_service_api_lambda_arn = aws_lambda_function.drs_service_api_lambda.arn
   })
 }

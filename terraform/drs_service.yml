@@ -113,13 +113,13 @@ tags:
 
     1. The client parses the string to extract the prefix of `drs.42` and the accession of `314159`, using the first occurrence of a colon (":") character after the initial `drs://` as a delimiter. (The colon character is not allowed in a Hostname-based DRS URI, making it easy to tell them apart.)
 
-    2. The client makes API calls to a meta-resolver to look up the URL pattern for the namespace. (See [Calling Meta-Resolver APIs for Compact Identifier-Based DRS URIs](#section/Calling-Meta-Resolver-APIs-for-Compact-Identifier-Based-DRS-URIs) for details.) The URL pattern is a string containing a `{$id}` parameter, such as:
+    2. The client makes API calls to a meta-resolver to look up the URL pattern for the namespace. (See [Calling Meta-Resolver APIs for Compact Identifier-Based DRS URIs](#section/Calling-Meta-Resolver-APIs-for-Compact-Identifier-Based-DRS-URIs) for details.) The URL pattern is a string containing a `{id}` parameter, such as:
 
     ```
-    https://drs.myexample.org/ga4gh/drs/v1/objects/{$id}
+    https://drs.myexample.org/ga4gh/drs/v1/objects/{id}
     ```
 
-    3. The client generates a DRS URL from the URL template by replacing {$id} with the accession it extracted in step 1. It then makes a GET request to the DRS server:
+    3. The client generates a DRS URL from the URL template by replacing {id} with the accession it extracted in step 1. It then makes a GET request to the DRS server:
 
     ```
     GET https://drs.myexample.org/ga4gh/drs/v1/objects/314159
@@ -204,9 +204,9 @@ tags:
     API. Implementers should indicate how to authenticate to fetch an [AccessURL](#tag/AccessURLModel)
     within a [DrsObject](#tag/DrsObjectModel). \n\n### Modes\n\n#### BasicAuth\n\nA
     valid authorization token must be passed in the 'Authorization' header, e.g. \"Basic
-    ${token_string}\"\n\n| Security Scheme Type | HTTP |\n|----------------------|------|\n|
+    {token_string}\"\n\n| Security Scheme Type | HTTP |\n|----------------------|------|\n|
     **HTTP Authorization Scheme** | basic |\n\n#### BearerAuth\n\nA valid authorization
-    token must be passed in the 'Authorization' header, e.g. \"Bearer ${token_string}\"\n\n|
+    token must be passed in the 'Authorization' header, e.g. \"Bearer {token_string}\"\n\n|
     Security Scheme Type | HTTP |\n|----------------------|------|\n| **HTTP Authorization
     Scheme** | bearer |\n\n#### PassportAuth\n\nA valid authorization [GA4GH Passport](https://github.com/ga4gh-duri/ga4gh-duri.github.io/tree/master/researcher_ids)
     token must be passed in the body of a POST request\n\n| Security Scheme Type |
@@ -380,10 +380,10 @@ tags:
     GET https://registry.api.identifiers.org/restApi/resources/search/findAllByNamespaceId?id=1234
     ```
 
-    This request returns a JSON structure including an urlPattern field, whose value is a URL pattern containing a ${id} parameter, such as:
+    This request returns a JSON structure including an urlPattern field, whose value is a URL pattern containing a {id} parameter, such as:
 
     ```
-    "urlPattern" : "https://drs.myexample.org/ga4gh/drs/v1/objects/{$id}"
+    "urlPattern" : "https://drs.myexample.org/ga4gh/drs/v1/objects/{id}"
     ```
 
     ### Calling the n2t.net API as a Client
@@ -396,10 +396,10 @@ tags:
     GET https://n2t.net/drs.42:
     ```
 
-    This request returns a text structure including a redirect field, whose value is a URL pattern containing an `$id` parameter, such as:
+    This request returns a text structure including a redirect field, whose value is a URL pattern containing an `id` parameter, such as:
 
     ```
-    redirect: https://drs.myexample.org/ga4gh/drs/v1/objects/$id
+    redirect: https://drs.myexample.org/ga4gh/drs/v1/objects/id
     ```
 
     ## Caching with Compact Identifiers
@@ -774,12 +774,12 @@ components:
       scheme: basic
       description: |
         A valid authorization token must be passed in the 'Authorization' header,
-        e.g. "Basic ${token_string}"
+        e.g. "Basic {token_string}"
     BearerAuth:
       type: http
       scheme: bearer
       description: A valid authorization token must be passed in the 'Authorization'
-        header, e.g. "Bearer ${token_string}"
+        header, e.g. "Bearer {token_string}"
     PassportAuth:
       type: http
       scheme: bearer
