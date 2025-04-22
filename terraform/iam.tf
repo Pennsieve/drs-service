@@ -88,4 +88,15 @@ data "aws_iam_policy_document" "service_iam_policy_document" {
     resources = ["arn:aws:ssm:${data.aws_region.current_region.name}:${data.aws_caller_identity.current.account_id}:parameter/${var.environment_name}/${var.service_name}/*"]
   }
 
+  statement {
+    sid    = "RDS-Proxy-Permissions"
+    effect = "Allow"
+
+    actions = [
+      "rds-db:connect"
+    ]
+
+    resources = [local.rds_db_connect_arn]
+  }
+
 }
