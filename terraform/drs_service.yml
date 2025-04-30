@@ -486,9 +486,12 @@ x-tagGroups:
   - Compact Identifier-Based URIs
   - Hostname-Based URIs
   - GA4GH Service Registry
+
 paths:
   "/service-info":
     get:
+      x-amazon-apigateway-integration:
+        $ref: '#/components/x-amazon-apigateway-integrations/drs-service'
       summary: Retrieve information about this service
       description: "Returns information about the DRS service\n\nExtends the\n[v1.0.0
         GA4GH Service Info specification](https://github.com/ga4gh-discovery/ga4gh-service-info)\nas
@@ -511,6 +514,8 @@ paths:
       - Service Info
   "/objects/{object_id}":
     options:
+      x-amazon-apigateway-integration:
+        $ref: '#/components/x-amazon-apigateway-integrations/drs-service'
       summary: Get Authorization info about a DrsObject.
       security:
       - {}
@@ -534,8 +539,9 @@ paths:
           "$ref": "#/components/responses/500InternalServerError"
       tags:
       - Objects
-      x-swagger-router-controller: ga4gh.drs.server
     get:
+      x-amazon-apigateway-integration:
+        $ref: '#/components/x-amazon-apigateway-integrations/drs-service'
       summary: Get info about a DrsObject.
       description: Returns object metadata, and a list of access methods that can
         be used to fetch object bytes.
@@ -560,8 +566,9 @@ paths:
           "$ref": "#/components/responses/500InternalServerError"
       tags:
       - Objects
-      x-swagger-router-controller: ga4gh.drs.server
     post:
+      x-amazon-apigateway-integration:
+        $ref: '#/components/x-amazon-apigateway-integrations/drs-service'
       summary: Get info about a DrsObject through POST'ing a Passport.
       description: |-
         Returns object metadata, and a list of access methods that can be used to fetch object bytes.
@@ -586,13 +593,14 @@ paths:
           "$ref": "#/components/responses/500InternalServerError"
       tags:
       - Objects
-      x-swagger-router-controller: ga4gh.drs.server
       parameters:
       - "$ref": "#/components/parameters/ObjectId"
       requestBody:
         "$ref": "#/components/requestBodies/PostObjectBody"
   "/objects":
     options:
+      x-amazon-apigateway-integration:
+        $ref: '#/components/x-amazon-apigateway-integrations/drs-service'
       summary: Get Authorization info about multiple DrsObjects.
       security:
       - {}
@@ -617,7 +625,6 @@ paths:
           "$ref": "#/components/responses/500InternalServerError"
       tags:
       - Objects
-      x-swagger-router-controller: ga4gh.drs.server
       requestBody:
         required: true
         content:
@@ -625,6 +632,8 @@ paths:
             schema:
               "$ref": "#/components/schemas/BulkObjectIdNoPassport"
     post:
+      x-amazon-apigateway-integration:
+        $ref: '#/components/x-amazon-apigateway-integrations/drs-service'
       summary: Get info about multiple DrsObjects with an optional Passport(s).
       description: Returns an array of object metadata, and a list of access methods
         that can be used to fetch objects' bytes.  Currently this is limited to use
@@ -654,7 +663,6 @@ paths:
           "$ref": "#/components/responses/500InternalServerError"
       tags:
       - Objects
-      x-swagger-router-controller: ga4gh.drs.server
       requestBody:
         required: true
         content:
@@ -663,6 +671,8 @@ paths:
               "$ref": "#/components/schemas/BulkObjectId"
   "/objects/{object_id}/access/{access_id}":
     get:
+      x-amazon-apigateway-integration:
+        $ref: '#/components/x-amazon-apigateway-integrations/drs-service'
       summary: Get a URL for fetching bytes
       description: |-
         Returns a URL that can be used to fetch the bytes of a `DrsObject`.
@@ -685,11 +695,12 @@ paths:
           "$ref": "#/components/responses/500InternalServerError"
       tags:
       - Objects
-      x-swagger-router-controller: ga4gh.drs.server
       parameters:
       - "$ref": "#/components/parameters/ObjectId"
       - "$ref": "#/components/parameters/AccessId"
     post:
+      x-amazon-apigateway-integration:
+        $ref: '#/components/x-amazon-apigateway-integrations/drs-service'
       summary: Get a URL for fetching bytes through POST'ing a Passport
       description: |-
         Returns a URL that can be used to fetch the bytes of a `DrsObject`.
@@ -715,7 +726,6 @@ paths:
           "$ref": "#/components/responses/500InternalServerError"
       tags:
       - Objects
-      x-swagger-router-controller: ga4gh.drs.server
       parameters:
       - "$ref": "#/components/parameters/ObjectId"
       - "$ref": "#/components/parameters/AccessId"
@@ -723,6 +733,8 @@ paths:
         "$ref": "#/components/requestBodies/Passports"
   "/objects/access":
     post:
+      x-amazon-apigateway-integration:
+        $ref: '#/components/x-amazon-apigateway-integrations/drs-service'
       summary: Get URLs for fetching bytes from multiple objects with an optional
         Passport(s).
       description: |-
@@ -751,7 +763,6 @@ paths:
           "$ref": "#/components/responses/500InternalServerError"
       tags:
       - Objects
-      x-swagger-router-controller: ga4gh.drs.server
       requestBody:
         required: true
         content:
