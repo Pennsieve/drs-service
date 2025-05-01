@@ -89,7 +89,7 @@ data "aws_iam_policy_document" "service_iam_policy_document" {
   }
 
   statement {
-    sid    = "RDS-Proxy-Permissions"
+    sid    = "RDSProxyPermissions"
     effect = "Allow"
 
     actions = [
