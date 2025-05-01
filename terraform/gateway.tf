@@ -20,8 +20,6 @@ resource "aws_apigatewayv2_api_mapping" "drs-service-api-map" {
   api_id          = aws_apigatewayv2_api.drs-service-api.id
   domain_name     = var.api_domain_name
   stage           = aws_apigatewayv2_stage.drs-service-gateway-stage.id
-  api_mapping_key = "drs"
-
 }
 
 resource "aws_apigatewayv2_stage" "drs-service-gateway-stage" {
